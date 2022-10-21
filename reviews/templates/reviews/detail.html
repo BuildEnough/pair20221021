@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ review.pk }}번</h2>
+<p>{{ review.created_at }} 생성 날짜</p>
+<p>{{ review.updated_at }} 수정 날짜</p>
+<p>{{ review.content }}</p>
+
+<a href="{% url 'reviews:update' review.pk %}">수정</a>
+{% endblock %}
