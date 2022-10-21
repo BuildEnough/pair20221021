@@ -1,9 +1,43 @@
 {% extends 'base.html' %}
-{% block content %}
-<h2>{{ review.pk }}번</h2>
-<p>{{ review.created_at }} 생성 날짜</p>
-<p>{{ review.updated_at }} 수정 날짜</p>
-<p>{{ review.content }}</p>
+{% load django_bootstrap5 %}
+{% block body %}
+<div class="my-3">
+  <h1 class="text-center">{{ review.title }}</h1>
+  <p class="text-end small">{{ review.created_at }} 생성 날짜</p>
+  <p class="text-end small">{{ review.updated_at }} 수정 날짜</p>
+  <p class="text-center">{{ review.content }}</p>
+  <div class="text-end">
+    {% if request.user == review.user %}
+    <a href="{% url 'reviews:update' review.pk %}" class="btn btn-dark">수정</a>
+    <a href="{% url 'reviews:delete' review.pk %}" class="btn btn-dark">삭제</a>
+    {% endif %}
+  </div>
+</div>
 
-<a href="{% url 'reviews:update' review.pk %}">수정</a>
-{% endblock %}
+<h4 class="my-3">댓글 목록</h4>
+{% for comment in comments %}
+<div class="my-3">
+  <span>
+    {{ comment.user }}
+    {{ comment.content }}
+  </span>
+    {% if request.user == comment.user %}
+    <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" method='POST' class="d-inline">
+      {% csrf_token %}
+      <input type="submit" name="" id="" value="삭제" class="btn btn-dark btn-sm">
+    </form>
+    {% endif %}
+</div>
+{% endfor %}
+
+<h4>댓글 작성</h4>
+<div class="sticky-bottom">
+  <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
+    <div class="row justify-content-center align-items-center g-0 m-0 p-0">
+    {% csrf_token %}
+      <div class="col-10">{% bootstrap_form comment_form layout='inline' %}</div>
+      <input type="submit" class="col-2 btn btn-dark btn-outline-light" value="작성">
+    </div>
+  </form>
+</div>
+{% endblock body %}

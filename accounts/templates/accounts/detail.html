@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1>
+  {{ user.username }} 님의 프로필입니다.
+</h1>
+{% for review in user.review_set.all %}
+<p>
+  <a href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a>
+</p>
+{% endfor %}
+
+{% endblock body %}

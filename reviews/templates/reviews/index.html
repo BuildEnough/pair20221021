@@ -1,12 +1,23 @@
 {% extends 'base.html' %}
-{% block content %}
-{% for review in reviews %}
-<a href="{% url 'reviews:detail' review.pk %}">
-  <p>{{ review.title }}</p>
-</a>
-<p>{{ review.content }}</p>
-<p>{{ review.movie_name }}</p>
-<p>{{ review.grade }}</p>
-{% endfor %}
-<a href="{% url 'reviews:create' %}">글 작성</a>
-{% endblock %}
+{% block body %}
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">pk</th>
+        <th scope="col">제목</th>
+        <th scope="col">작성자</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for review in reviews %}
+        <tr class="">
+          <td scope="row">{{review.pk}}</td>
+          <td><a href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a></td>
+          <td scope="row">{{review.user}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock body %}

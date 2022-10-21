@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block body %}
+<h1>유저 목록</h1>
+{% for user in users %}
+  {{ user.pk }}
+  {{ user.username }}
+{% endfor %}
+{% endblock body %}
 
-gd
-{% endblock %}
+
